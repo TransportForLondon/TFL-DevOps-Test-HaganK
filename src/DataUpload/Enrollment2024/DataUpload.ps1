@@ -35,9 +35,10 @@ $students = Import-Csv -Path $PSScriptRoot\Students.csv
 Write-Host "Building Query for student insert"
 $insertStudentsQuery = "DECLARE @expected_inserts int; DECLARE @actual_inserts int; SET XACT_ABORT ON; SET @expected_inserts = $($students.Count); BEGIN TRANSACTION; INSERT INTO [dbo].[Students] (FirstMidName,LastName,EnrollmentDate) VALUES "
 $students | ForEach-Object {
-    $value = "('$($_.FirstMidName)','$($_.LastName)','$($_.EnrollmentDate)'),"
+    $value = "('$($_.FirstMidName)','$($_.LastName)','$($_.EnrollmentDate)'),";
+    $insertStudentsQuery = $insertStudentsQuery + $value 
 }
-$insertStudentsQuery = $insertStudentsQuery + $value 
+## $insertStudentsQuery = $insertStudentsQuery + $value 
 $insertStudentsQuery = $insertStudentsQuery.Substring(0, $insertStudentsQuery.LastIndexOf(","))
 $insertStudentsQuery = $insertStudentsQuery + "; SET @actual_inserts = @@ROWCOUNT; IF @actual_inserts = @expected_inserts COMMIT TRANSACTION; ELSE ROLLBACK TRANSACTION;"
 
