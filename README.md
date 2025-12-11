@@ -139,23 +139,7 @@ This is a data calculation bug affecting all student records in the portal.
 1. **Locate** the source of the incorrect calculation
 2. **Fix** the business logic error
 3. **Verify** calculations are correct for all students
-4. **Ensure** the solution handles edge cases properly
-
-### Testing Your Fix
-```powershell
-# Terminal 1 - Start API
-cd Api
-dotnet run
-
-# Terminal 2 - Start Portal
-cd StudentPortal
-dotnet run
-
-# Test in browser at displayed URL
-# Search: Carson Alexander
-# Expected: Total Credits = 9
-```
-
+4. 
 ---
 
 ## Question 3: Critical Data Migration Script Failure (20 minutes)
@@ -173,30 +157,7 @@ The PowerShell data upload script (`DataUpload/Enrollment2024/DataUpload.ps1`) i
 
 1. **Analyze** the script to identify why only partial data is being processed
 2. **Correct** the data processing logic
-3. **Implement** proper input sanitization for SQL safety
-4. **Test** that all records are imported successfully
 
-### Acceptance Criteria
-- [ ] All student records from `Students.csv` are inserted into the database
-- [ ] Transaction completes successfully (no rollback)
-- [ ] Script properly escapes special characters (e.g., names with apostrophes)
-- [ ] Row count validation passes
 
-### Testing Your Fix
-```powershell
-cd DataUpload\Enrollment2024
-
-# Check record count in source file
-(Import-Csv .\Students.csv).Count
-
-# Execute the upload script
-.\DataUpload.ps1 `
-  -InstanceName "your-server.database.windows.net" `
-  -DatabaseName "your-database" `
-  -SqlAdminUser "your-username" `
-  -SqlAdminPassword "your-password"
-
-# Verify all records were inserted
-```
 
 **Note:** Consider how PowerShell handles variable scope and string concatenation in loops.
